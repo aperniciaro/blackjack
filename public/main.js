@@ -1,6 +1,3 @@
-import { builtinModules } from 'module'
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants'
-
 const main = () => {}
 
 // array with ranks
@@ -10,12 +7,11 @@ const main = () => {}
 // array for player hand
 
 // build deck function
-//   loop parsing rank and suit arrays
+//   nested loop parsing rank and suit arrays
 //     card object added to deck
 //       rank property
 //       suit property
-//       value property
-//         if else statements for numbers, face cards, aces
+//   parse deck to assign values for numbers, face cards, aces with if/else
 // shuffle deck function
 //   loop exchanging elements of deck for random positions
 // deal function, player/dealer as input
