@@ -5,6 +5,47 @@ const main = () => {}
 // array for deck
 // array for dealer hand
 // array for player hand
+let ranks = [
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  'jack',
+  'queen',
+  'king',
+  'ace'
+]
+let suits = ['clubs', 'diamonds', 'hearts', 'spades']
+let deck = []
+let dealerHand = []
+let player1Hand = []
+
+const buildDeck = () => {
+  for (let i = 0; i < ranks.length; i++) {
+    for (let j = 0; j < suits.length; j++) {
+      const card = {
+        rank: ranks[i],
+        suit: suits[j]
+      }
+      deck.push(card)
+    }
+  }
+}
+
+const shuffleDeck = () => {}
+
+const deal = whichHand => {}
+
+const reset = () => {}
+
+const hit = () => {}
+
+const stand = () => {}
 
 // build deck function
 //   nested loop parsing rank and suit arrays
@@ -34,3 +75,6 @@ const main = () => {}
 //   evaluate winner
 
 document.addEventListener('DOMContentLoaded', main)
+document.querySelector('.hit-button').addEventListener('click', hit)
+document.querySelector('.stand-button').addEventListener('click', stand)
+document.querySelector('.reset-button').addEventListener('click', reset)
