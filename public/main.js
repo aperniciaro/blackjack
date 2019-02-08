@@ -24,6 +24,8 @@ let suits = ['clubs', 'diamonds', 'hearts', 'spades']
 let deck = []
 let dealerHand = []
 let playerHand = []
+let playerTotal = 0
+let dealerTotal = 0
 
 const buildDeck = () => {
   for (let i = 0; i < ranks.length; i++) {
@@ -65,22 +67,66 @@ const reset = () => {
     deal('dealer')
     deal('player')
   }
+  playerSum()
+  if(playerTotal == 21){
+    //blackjack
+  }
+  dealerSum()
+}
+
+const playerSum = () =>{
+  for (let i = 0; i < playerHand.length; i++) {
+    playerTotal += playerHand[i].value
+}
+
+const dealerSum = () =>{
+  for (let i = 0; i < dealerHand.length; i++) {
+    dealerTotal += dealerHand[i].value
 }
 
 const hit = () => {
   deal('player')
-  const playerTotal = 0
-  for (let index = 0; index < playerHand.length; index++) {
-    playerTotal += playerHand[i].value
-  }
+  playerSum()
   if (playerTotal > 21) {
     //bust
+    dealerWins() 
   } else if (playerTotal == 21) {
     //blackjack
   }
 }
 
-const stand = () => {}
+const stand = () => {
+  //change dealer card class to visible
+  while(dealerTotal<17){
+    deal('dealer')
+    dealerSum()
+  }
+  if(dealerTotal == playerTotal){
+    //draw
+    tie()
+  }else if(dealerTotal > 21){
+    //dealer busts
+    playerWins()
+  }else if(dealerTotal>playerTotal){
+    //dealer wins
+    dealerWins()
+  }else{
+    //player wins
+    playerWins()
+  }
+}
+
+const dealerWins = () => {
+
+}
+
+const playerWins = () => {
+
+}
+
+const tie = () => {
+
+}
 
 // build deck function
 //   nested loop parsing rank and suit arrays
