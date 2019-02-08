@@ -33,6 +33,7 @@ const buildDeck = () => {
       const card = {
         rank: ranks[i],
         suit: suits[j]
+      //need to assign card values
       }
       deck.push(card)
     }
