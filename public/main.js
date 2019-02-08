@@ -38,18 +38,32 @@ const buildDeck = () => {
 }
 
 const shuffleDeck = () => {
-  for (let i=deck.length -1; i>=; i--){
-    const j=Math.floor(Math.random()*(i+1))
+  for (let i = deck.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
     const cardI = deck[i]
     const cardJ = deck[j]
-    deck[i]=cardJ
-    deck[j]=cardI
+    deck[i] = cardJ
+    deck[j] = cardI
   }
 }
 
-const deal = whichHand => {}
+const deal = whichHand => {
+  const nextCard = deck.shift()
+  const cardInHand = document.createElement('li')
+  //change to images
+  cardInHand.textContent = nextCard.rank + ' of ' + nextCard.suit
+  document.querySelector(whichHand + '-hand').appendChild(cardInHand)
+  //will need to change class if dealer
+}
 
-const reset = () => {}
+const reset = () => {
+  buildDeck()
+  shuffleDeck()
+  for (let index = 0; index < 2; index++) {
+    deal('dealer')
+    deal('player')
+  }
+}
 
 const hit = () => {}
 
@@ -60,6 +74,7 @@ const stand = () => {}
 //     card object added to deck
 //       rank property
 //       suit property
+//       img property
 //   parse deck to assign values for numbers, face cards, aces with if/else
 // shuffle deck function
 //   loop exchanging elements of deck for random positions
@@ -82,7 +97,7 @@ const stand = () => {}
 //   deal dealer until 17
 //   evaluate winner
 
-document.addEventListener('DOMContentLoaded', main)
+document.addEventListener('DOMContentLoaded', reset)
 document.querySelector('.hit-button').addEventListener('click', hit)
 document.querySelector('.stand-button').addEventListener('click', stand)
 document.querySelector('.reset-button').addEventListener('click', reset)
