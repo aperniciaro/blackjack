@@ -23,7 +23,7 @@ let ranks = [
 let suits = ['clubs', 'diamonds', 'hearts', 'spades']
 let deck = []
 let dealerHand = []
-let player1Hand = []
+let playerHand = []
 
 const buildDeck = () => {
   for (let i = 0; i < ranks.length; i++) {
@@ -49,8 +49,10 @@ const shuffleDeck = () => {
 
 const deal = whichHand => {
   const nextCard = deck.shift()
+  const targetHand = whichHand + 'Hand'
+  targetHand.push(nextCard)
   const cardInHand = document.createElement('li')
-  //change to images
+  //change below to images
   cardInHand.textContent = nextCard.rank + ' of ' + nextCard.suit
   document.querySelector(whichHand + '-hand').appendChild(cardInHand)
   //will need to change class if dealer
@@ -65,7 +67,18 @@ const reset = () => {
   }
 }
 
-const hit = () => {}
+const hit = () => {
+  deal('player')
+  const playerTotal = 0
+  for (let index = 0; index < playerHand.length; index++) {
+    playerTotal += playerHand[i].value
+  }
+  if (playerTotal > 21) {
+    //bust
+  } else if (playerTotal == 21) {
+    //blackjack
+  }
+}
 
 const stand = () => {}
 
