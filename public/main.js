@@ -37,7 +37,15 @@ const buildDeck = () => {
   }
 }
 
-const shuffleDeck = () => {}
+const shuffleDeck = () => {
+  for (let i=deck.length -1; i>=; i--){
+    const j=Math.floor(Math.random()*(i+1))
+    const cardI = deck[i]
+    const cardJ = deck[j]
+    deck[i]=cardJ
+    deck[j]=cardI
+  }
+}
 
 const deal = whichHand => {}
 
