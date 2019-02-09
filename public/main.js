@@ -40,6 +40,7 @@ const shuffleDeck = () => {
 
 const dealDealer = () => {
   const nextCard = deck.shift()
+  dealerTotal += nextCard.cardValue
   const cardInHand = document.createElement('li')
   //change below to images
   cardInHand.textContent = nextCard.rank + nextCard.suit
@@ -48,6 +49,7 @@ const dealDealer = () => {
 
 const dealPlayer = () => {
   const nextCard = deck.shift()
+  playerTotal += nextCard.cardValue
   const cardInHand = document.createElement('li')
   //change below to images
   cardInHand.textContent = nextCard.rank + nextCard.suit
@@ -57,35 +59,34 @@ const dealPlayer = () => {
 const reset = () => {
   buildDeck()
   shuffleDeck()
-  for (let index = 0; index < 2; index++) {
+  for (let i = 0; i < playerHand.length; i++) {
+    document
+      .querySelector('.player-hand')
+      .removeChild('.player-hand'.firstChild)
+  }
+  playerHand = []
+  dealerHand = []
+  for (let j = 0; j < 2; j++) {
     dealPlayer()
   }
-  playerSum()
   if (playerTotal == 21) {
-    //blackjack
-  }
-}
-
-const playerSum = () => {
-  for (let i = 0; i < playerHand.length; i++) {
-    playerTotal += playerHand[i].cardValue
-  }
-}
-
-const dealerSum = () => {
-  for (let i = 0; i < dealerHand.length; i++) {
-    dealerTotal += dealerHand[i].cardValue
+    let message = document.createElement('h2')
+    message.textContent = 'Player has Blackjack!'
+    document.querySelector('.events').appendChild(message)
   }
 }
 
 const hit = () => {
   dealPlayer()
-  playerSum()
   if (playerTotal > 21) {
-    //bust
+    let message = document.createElement('h2')
+    message.textContent = 'Player busts'
+    document.querySelector('.events').appendChild(message)
     dealerWins()
   } else if (playerTotal == 21) {
-    //blackjack
+    let message = document.createElement('h2')
+    message.textContent = 'Player has 21!'
+    document.querySelector('.events').appendChild(message)
   }
 }
 
@@ -93,53 +94,40 @@ const stand = () => {
   for (let index = 0; index < 2; index++) {
     dealDealer()
   }
-  dealerSum()
   while (dealerTotal < 17) {
     dealDealer()
-    dealerSum()
   }
   if (dealerTotal == playerTotal) {
     tie()
-  } else if (dealerTotal > playerTotal && dealerTotal < 22) {
+  } else if (dealerTotal > 22) {
+    let message = document.createElement('h2')
+    message.textContent = 'Dealer busts'
+    document.querySelector('.events').appendChild(message)
+    playerWins()
+  } else if (dealerTotal > playerTotal) {
     dealerWins()
   } else {
     playerWins()
   }
 }
 
-const dealerWins = () => {}
+const dealerWins = () => {
+  let message = document.createElement('h2')
+  message.textContent = 'Dealer wins'
+  document.querySelector('.events').appendChild(message)
+}
 
-const playerWins = () => {}
+const playerWins = () => {
+  let message = document.createElement('h2')
+  message.textContent = 'Player wins!'
+  document.querySelector('.events').appendChild(message)
+}
 
-const tie = () => {}
-
-// build deck function
-//   nested loop parsing rank and suit arrays
-//     card object added to deck
-//       rank property
-//       suit property
-//       img property
-//   parse deck to assign values for numbers, face cards, aces with if/else
-// shuffle deck function
-//   loop exchanging elements of deck for random positions
-// deal function, player/dealer as input
-//   remove first element of deck
-//   add element to specified hand
-//   display element in specified list
-//    assign card colors
-// reset function
-//   call build
-//   call shuffle
-//   deal dealer twice
-//     apply hidden class
-//   deal player twice
-// hit function
-//   deal player once
-//   check for bust
-// stand function
-//   show dealer hand
-//   deal dealer until 17
-//   evaluate winner
+const tie = () => {
+  let message = document.createElement('h2')
+  message.textContent = 'Tie round'
+  document.querySelector('.events').appendChild(message)
+}
 
 document.addEventListener('DOMContentLoaded', reset)
 document.querySelector('.hit-button').addEventListener('click', hit)

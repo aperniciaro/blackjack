@@ -11,6 +11,11 @@ body {
   min-height: 100%;
 }
 
+.events {
+  display: flex;
+  flex-direction: column;
+}
+
 ul {
   list-style: none;
   display: flex;
