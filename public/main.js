@@ -1,25 +1,4 @@
-const main = () => {}
-
-// array with ranks
-// array with suits
-// array for deck
-// array for dealer hand
-// array for player hand
-let ranks = [
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  'j',
-  'q',
-  'k',
-  'a'
-]
+let ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k', 'a']
 let suits = ['clubs', 'diamonds', 'hearts', 'spades']
 let deck = []
 let dealerHand = []
@@ -32,19 +11,19 @@ const buildDeck = () => {
     for (let j = 0; j < ranks.length; j++) {
       const card = {
         rank: ranks[j],
-        suit: suits[i]
+        suit: suits[i],
+        cardValue: 0
       }
-        value: parseInt(ranks[i], 10)
       deck.push(card)
     }
   }
   for (let k = 0; k < deck.length; k++) {
-    if(deck[k].rank == 'j' || deck[k].rank == 'q'|| deck[k].rank == 'k'){
-      deck[k].value = 10
-    }else if(deck[k].rank == 'a'){
-      deck[k].value = 11
-    }else{
-      deck[k].value = parkseInt(deck[k].rank, 10)
+    if (deck[k].rank == 'j' || deck[k].rank == 'q' || deck[k].rank == 'k') {
+      deck[k].cardValue = 10
+    } else if (deck[k].rank == 'a') {
+      deck[k].cardValue = 11
+    } else {
+      deck[k].cardValue = parseInt(deck[k].rank, 10)
     }
   }
 }
@@ -59,45 +38,52 @@ const shuffleDeck = () => {
   }
 }
 
-const deal = whichHand => {
+const dealDealer = () => {
   const nextCard = deck.shift()
-  const targetHand = whichHand + 'Hand'
-  targetHand.push(nextCard)
   const cardInHand = document.createElement('li')
   //change below to images
   cardInHand.textContent = nextCard.rank + nextCard.suit
-  document.querySelector(whichHand + '-hand').appendChild(cardInHand)
+  document.querySelector('.dealer-hand').appendChild(cardInHand)
+}
+
+const dealPlayer = () => {
+  const nextCard = deck.shift()
+  const cardInHand = document.createElement('li')
+  //change below to images
+  cardInHand.textContent = nextCard.rank + nextCard.suit
+  document.querySelector('.player-hand').appendChild(cardInHand)
 }
 
 const reset = () => {
   buildDeck()
   shuffleDeck()
   for (let index = 0; index < 2; index++) {
-    deal('player')
+    dealPlayer()
   }
   playerSum()
-  if(playerTotal == 21){
+  if (playerTotal == 21) {
     //blackjack
   }
-  dealerSum()
 }
 
-const playerSum = () =>{
+const playerSum = () => {
   for (let i = 0; i < playerHand.length; i++) {
-    playerTotal += playerHand[i].value
+    playerTotal += playerHand[i].cardValue
+  }
 }
 
-const dealerSum = () =>{
+const dealerSum = () => {
   for (let i = 0; i < dealerHand.length; i++) {
-    dealerTotal += dealerHand[i].value
+    dealerTotal += dealerHand[i].cardValue
+  }
 }
 
 const hit = () => {
-  deal('player')
+  dealPlayer()
   playerSum()
   if (playerTotal > 21) {
     //bust
-    dealerWins() 
+    dealerWins()
   } else if (playerTotal == 21) {
     //blackjack
   }
@@ -105,33 +91,27 @@ const hit = () => {
 
 const stand = () => {
   for (let index = 0; index < 2; index++) {
-    deal(dealer)
+    dealDealer()
   }
   dealerSum()
-  while(dealerTotal<17){
-    deal('dealer')
+  while (dealerTotal < 17) {
+    dealDealer()
     dealerSum()
   }
-  if(dealerTotal == playerTotal){
+  if (dealerTotal == playerTotal) {
     tie()
-  }else if(dealerTotal > playerTotal && dealerTotal < 22){
+  } else if (dealerTotal > playerTotal && dealerTotal < 22) {
     dealerWins()
-  }else{
+  } else {
     playerWins()
   }
 }
 
-const dealerWins = () => {
+const dealerWins = () => {}
 
-}
+const playerWins = () => {}
 
-const playerWins = () => {
-
-}
-
-const tie = () => {
-
-}
+const tie = () => {}
 
 // build deck function
 //   nested loop parsing rank and suit arrays
