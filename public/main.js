@@ -15,10 +15,10 @@ let ranks = [
   '8',
   '9',
   '10',
-  'jack',
-  'queen',
-  'king',
-  'ace'
+  'j',
+  'q',
+  'k',
+  'a'
 ]
 let suits = ['clubs', 'diamonds', 'hearts', 'spades']
 let deck = []
@@ -28,14 +28,23 @@ let playerTotal = 0
 let dealerTotal = 0
 
 const buildDeck = () => {
-  for (let i = 0; i < ranks.length; i++) {
-    for (let j = 0; j < suits.length; j++) {
+  for (let i = 0; i < suits.length; i++) {
+    for (let j = 0; j < ranks.length; j++) {
       const card = {
-        rank: ranks[i],
-        suit: suits[j]
-      //need to assign card values
+        rank: ranks[j],
+        suit: suits[i]
       }
+        value: parseInt(ranks[i], 10)
       deck.push(card)
+    }
+  }
+  for (let k = 0; k < deck.length; k++) {
+    if(deck[k].rank == 'j' || deck[k].rank == 'q'|| deck[k].rank == 'k'){
+      deck[k].value = 10
+    }else if(deck[k].rank == 'a'){
+      deck[k].value = 11
+    }else{
+      deck[k].value = parkseInt(deck[k].rank, 10)
     }
   }
 }
@@ -56,16 +65,14 @@ const deal = whichHand => {
   targetHand.push(nextCard)
   const cardInHand = document.createElement('li')
   //change below to images
-  cardInHand.textContent = nextCard.rank + ' of ' + nextCard.suit
+  cardInHand.textContent = nextCard.rank + nextCard.suit
   document.querySelector(whichHand + '-hand').appendChild(cardInHand)
-  //will need to change class if dealer
 }
 
 const reset = () => {
   buildDeck()
   shuffleDeck()
   for (let index = 0; index < 2; index++) {
-    deal('dealer')
     deal('player')
   }
   playerSum()
@@ -97,22 +104,19 @@ const hit = () => {
 }
 
 const stand = () => {
-  //change dealer card class to visible
+  for (let index = 0; index < 2; index++) {
+    deal(dealer)
+  }
+  dealerSum()
   while(dealerTotal<17){
     deal('dealer')
     dealerSum()
   }
   if(dealerTotal == playerTotal){
-    //draw
     tie()
-  }else if(dealerTotal > 21){
-    //dealer busts
-    playerWins()
-  }else if(dealerTotal>playerTotal){
-    //dealer wins
+  }else if(dealerTotal > playerTotal && dealerTotal < 22){
     dealerWins()
   }else{
-    //player wins
     playerWins()
   }
 }
