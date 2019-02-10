@@ -1,4 +1,18 @@
-let ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k', 'a']
+let ranks = [
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  'jack',
+  'queen',
+  'king',
+  'ace'
+]
 let suits = ['clubs', 'diamonds', 'hearts', 'spades']
 let deck = []
 let dealerHand = []
@@ -18,9 +32,13 @@ const buildDeck = () => {
     }
   }
   for (let k = 0; k < deck.length; k++) {
-    if (deck[k].rank == 'j' || deck[k].rank == 'q' || deck[k].rank == 'k') {
+    if (
+      deck[k].rank == 'jack' ||
+      deck[k].rank == 'queen' ||
+      deck[k].rank == 'king'
+    ) {
       deck[k].cardValue = 10
-    } else if (deck[k].rank == 'a') {
+    } else if (deck[k].rank == 'ace') {
       deck[k].cardValue = 11
     } else {
       deck[k].cardValue = parseInt(deck[k].rank, 10)
@@ -74,6 +92,8 @@ const reset = () => {
     message.textContent = 'Player has Blackjack!'
     document.querySelector('.events').appendChild(message)
   }
+  document.getElementById('hit-button').disabled = false
+  document.getElementById('stand-button').disabled = false
 }
 
 const hit = () => {
@@ -99,7 +119,7 @@ const stand = () => {
   }
   if (dealerTotal == playerTotal) {
     tie()
-  } else if (dealerTotal > 22) {
+  } else if (dealerTotal > 21) {
     let message = document.createElement('h2')
     message.textContent = 'Dealer busts'
     document.querySelector('.events').appendChild(message)
@@ -115,21 +135,27 @@ const dealerWins = () => {
   let message = document.createElement('h2')
   message.textContent = 'Dealer wins'
   document.querySelector('.events').appendChild(message)
+  document.querySelector('#hit-button').classList.add('disabled-button')
+  document.querySelector('#stand-button').classList.add('disabled-button')
 }
 
 const playerWins = () => {
   let message = document.createElement('h2')
   message.textContent = 'Player wins!'
   document.querySelector('.events').appendChild(message)
+  document.getElementById('hit-button').disabled = true
+  document.getElementById('stand-button').disabled = true
 }
 
 const tie = () => {
   let message = document.createElement('h2')
-  message.textContent = 'Tie round'
+  message.textContent = 'Tie'
   document.querySelector('.events').appendChild(message)
+  document.querySelector('#hit-button').classList.add('disabled-button')
+  document.querySelector('.#tand-button').classList.add('disabled-button')
 }
 
 document.addEventListener('DOMContentLoaded', reset)
-document.querySelector('.hit-button').addEventListener('click', hit)
-document.querySelector('.stand-button').addEventListener('click', stand)
-document.querySelector('.reset-button').addEventListener('click', reset)
+document.querySelector('#hit-button').addEventListener('click', hit)
+document.querySelector('#stand-button').addEventListener('click', stand)
+document.querySelector('#reset-button').addEventListener('click', reset)
