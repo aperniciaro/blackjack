@@ -25,8 +25,3 @@ ul {
 li {
   margin: 0.1rem;
 }
-
-.disabled-button {
-  opacity: 0.6;
-  cursor: not-allowed;
-}

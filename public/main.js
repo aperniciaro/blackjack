@@ -20,6 +20,29 @@ let playerHand = []
 let playerTotal = 0
 let dealerTotal = 0
 
+const reset = () => {
+  for (i = 0; i < playerHand.length; i++) {
+    document.querySelecter('.player-hand').removeChild('player-hand'.firstChild)
+  }
+  for (k = 0; k < dealerHand.length; k++) {
+    document.querySelecter('.dealer-hand').removeChild('dealer-hand'.firstChild)
+  }
+  playerHand = []
+  dealerHand = []
+  buildDeck()
+  shuffleDeck()
+  for (let j = 0; j < 2; j++) {
+    dealPlayer()
+  }
+  if (playerTotal == 21) {
+    let message = document.createElement('h2')
+    message.textContent = 'Player has Blackjack!'
+    document.querySelector('.events').appendChild(message)
+  }
+  document.getElementById('hit-button').disabled = false
+  document.getElementById('stand-button').disabled = false
+}
+
 const buildDeck = () => {
   for (let i = 0; i < suits.length; i++) {
     for (let j = 0; j < ranks.length; j++) {
@@ -74,28 +97,6 @@ const dealPlayer = () => {
   document.querySelector('.player-hand').appendChild(cardInHand)
 }
 
-const reset = () => {
-  buildDeck()
-  shuffleDeck()
-  for (let i = 0; i < playerHand.length; i++) {
-    document
-      .querySelector('.player-hand')
-      .removeChild('.player-hand'.firstChild)
-  }
-  playerHand = []
-  dealerHand = []
-  for (let j = 0; j < 2; j++) {
-    dealPlayer()
-  }
-  if (playerTotal == 21) {
-    let message = document.createElement('h2')
-    message.textContent = 'Player has Blackjack!'
-    document.querySelector('.events').appendChild(message)
-  }
-  document.getElementById('hit-button').disabled = false
-  document.getElementById('stand-button').disabled = false
-}
-
 const hit = () => {
   dealPlayer()
   if (playerTotal > 21) {
@@ -135,8 +136,8 @@ const dealerWins = () => {
   let message = document.createElement('h2')
   message.textContent = 'Dealer wins'
   document.querySelector('.events').appendChild(message)
-  document.querySelector('#hit-button').classList.add('disabled-button')
-  document.querySelector('#stand-button').classList.add('disabled-button')
+  document.getElementById('hit-button').disabled = true
+  document.getElementById('stand-button').disabled = true
 }
 
 const playerWins = () => {
@@ -151,8 +152,8 @@ const tie = () => {
   let message = document.createElement('h2')
   message.textContent = 'Tie'
   document.querySelector('.events').appendChild(message)
-  document.querySelector('#hit-button').classList.add('disabled-button')
-  document.querySelector('.#tand-button').classList.add('disabled-button')
+  document.getElementById('hit-button').disabled = true
+  document.getElementById('stand-button').disabled = true
 }
 
 document.addEventListener('DOMContentLoaded', reset)
