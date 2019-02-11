@@ -21,22 +21,21 @@ let playerTotal = 0
 let dealerTotal = 0
 let winner = ''
 
+const clearSection = whatSection => {
+  let parent = document.querySelector(whatSection)
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
+  }
+}
+
 const reset = () => {
-  let parent = document.querySelector('.player-hand')
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild)
-  }
-  parent = document.querySelector('.dealer-hand')
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild)
-  }
-  parent = document.querySelector('.events')
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild)
-  }
+  clearSection('.player-hand')
+  clearSection('.dealer-hand')
+  clearSection('.events')
+
   const openingMessage = document.createElement('h2')
   openingMessage.textContent = 'Hit or Stand?'
-  parent.appendChild(openingMessage)
+  document.querySelector('.events').appendChild(openingMessage)
 
   deck = []
   playerHand = []
@@ -158,13 +157,11 @@ const stand = () => {
 const victory = winner => {
   const parent = document.querySelector('.events')
   parent.removeChild(parent.firstChild)
+  let winMessage = document.createElement('h2')
+  parent.appendChild(winMessage)
   if (winner == 'tie') {
-    let winMessage = document.createElement('h2')
-    parent.appendChild(winMessage)
     winMessage.textContent = 'Tie'
   } else {
-    let winMessage = document.createElement('h2')
-    parent.appendChild(winMessage)
     winMessage.textContent = winner + ' wins'
   }
   document.getElementById('hit-button').disabled = true
