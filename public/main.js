@@ -134,9 +134,8 @@ const stand = () => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
-  for (let index = 0; index < 2; index++) {
-    dealDealer()
-  }
+  dealDealer()
+  dealDealer()
   while (dealerTotal < 17) {
     dealDealer()
   }
