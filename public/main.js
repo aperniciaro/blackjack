@@ -23,10 +23,10 @@ let winner = ''
 
 const reset = () => {
   //children not removing
-  for (i = 0; i < playerHand.length; i++) {
+  while ('.player-hand'.firstChild) {
     document.querySelector('.player-hand').removeChild('player-hand'.firstChild)
   }
-  for (k = 0; k < dealerHand.length; k++) {
+  while ('.dealer-hand'.firstChild) {
     document.querySelector('.dealer-hand').removeChild('dealer-hand'.firstChild)
   }
   while ('.events'.firstChild) {
