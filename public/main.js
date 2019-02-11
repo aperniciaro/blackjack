@@ -19,13 +19,18 @@ let dealerHand = []
 let playerHand = []
 let playerTotal = 0
 let dealerTotal = 0
+let winner = ''
 
 const reset = () => {
+  //children not removing
   for (i = 0; i < playerHand.length; i++) {
-    document.querySelecter('.player-hand').removeChild('player-hand'.firstChild)
+    document.querySelector('.player-hand').removeChild('player-hand'.firstChild)
   }
   for (k = 0; k < dealerHand.length; k++) {
-    document.querySelecter('.dealer-hand').removeChild('dealer-hand'.firstChild)
+    document.querySelector('.dealer-hand').removeChild('dealer-hand'.firstChild)
+  }
+  while ('.events'.firstChild) {
+    document.querySelector('.events').removeChild('events'.firstChild)
   }
   playerHand = []
   dealerHand = []
@@ -103,7 +108,7 @@ const hit = () => {
     let message = document.createElement('h2')
     message.textContent = 'Player busts'
     document.querySelector('.events').appendChild(message)
-    dealerWins()
+    victory('Dealer')
   } else if (playerTotal == 21) {
     let message = document.createElement('h2')
     message.textContent = 'Player has 21!'
@@ -119,39 +124,27 @@ const stand = () => {
     dealDealer()
   }
   if (dealerTotal == playerTotal) {
-    tie()
+    victory('tie')
   } else if (dealerTotal > 21) {
     let message = document.createElement('h2')
     message.textContent = 'Dealer busts'
     document.querySelector('.events').appendChild(message)
-    playerWins()
+    victory('Player')
   } else if (dealerTotal > playerTotal) {
-    dealerWins()
+    victory('Dealer')
   } else {
-    playerWins()
+    victory('Player')
   }
 }
 
-const dealerWins = () => {
-  let message = document.createElement('h2')
-  message.textContent = 'Dealer wins'
-  document.querySelector('.events').appendChild(message)
-  document.getElementById('hit-button').disabled = true
-  document.getElementById('stand-button').disabled = true
-}
-
-const playerWins = () => {
-  let message = document.createElement('h2')
-  message.textContent = 'Player wins!'
-  document.querySelector('.events').appendChild(message)
-  document.getElementById('hit-button').disabled = true
-  document.getElementById('stand-button').disabled = true
-}
-
-const tie = () => {
-  let message = document.createElement('h2')
-  message.textContent = 'Tie'
-  document.querySelector('.events').appendChild(message)
+const victory = winner => {
+  if (winner == 'tie') {
+    let winMessage = document.createElement('h2')
+    winMessage.textContent = 'Tie'
+  } else {
+    let winMessage = document.createElement('h2')
+    winMessage.textContent = winner + ' wins'
+  }
   document.getElementById('hit-button').disabled = true
   document.getElementById('stand-button').disabled = true
 }
