@@ -88,23 +88,19 @@ const shuffleDeck = () => {
 }
 
 const dealPlayer = () => {
-  //cards not showing
   const playerCard = deck.shift()
   playerTotal += playerCard.cardValue
   let playerCardPic = document.createElement('img')
   document.querySelector('.player-hand').appendChild(playerCardPic)
   playerCardPic.src = playerCard.cardImage
-  console.log(playerCardPic)
 }
 
 const dealDealer = () => {
-  //cards not showing
   const dealerCard = deck.shift()
   dealerTotal += dealerCard.cardValue
   let dealerCardPic = document.createElement('img')
   document.querySelector('.dealer-hand').appendChild(dealerCardPic)
   dealerCardPic.src = dealerCard.cardImage
-  console.log(dealerCardPic)
 }
 
 const hit = () => {
@@ -122,6 +118,10 @@ const hit = () => {
 }
 
 const stand = () => {
+  //children not removing
+  while ('.dealer-hand'.firstChild) {
+    document.querySelector('.dealer-hand').removeChild('dealer-hand'.firstChild)
+  }
   for (let index = 0; index < 2; index++) {
     dealDealer()
   }
@@ -144,10 +144,12 @@ const stand = () => {
 
 const victory = winner => {
   if (winner == 'tie') {
+    document.querySelector('.events').removeChild('events'.firstChild)
     let winMessage = document.createElement('h2')
     document.querySelector('.events').appendChild(winMessage)
     winMessage.textContent = 'Tie'
   } else {
+    document.querySelector('.events').removeChild('events'.firstChild)
     let winMessage = document.createElement('h2')
     document.querySelector('.events').appendChild(winMessage)
     winMessage.textContent = winner + ' wins'
