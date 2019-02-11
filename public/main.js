@@ -1,4 +1,4 @@
-let ranks = [
+const ranks = [
   '2',
   '3',
   '4',
@@ -13,7 +13,7 @@ let ranks = [
   'king',
   'ace'
 ]
-let suits = ['clubs', 'diamonds', 'hearts', 'spades']
+const suits = ['clubs', 'diamonds', 'hearts', 'spades']
 let deck = []
 let dealerHand = []
 let playerHand = []
@@ -22,22 +22,35 @@ let dealerTotal = 0
 let winner = ''
 
 const reset = () => {
-  //children not removing
-  while ('.player-hand'.firstChild) {
-    document.querySelector('.player-hand').removeChild('player-hand'.firstChild)
+  let parent = document.querySelector('.player-hand')
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
   }
-  while ('.dealer-hand'.firstChild) {
-    document.querySelector('.dealer-hand').removeChild('dealer-hand'.firstChild)
+  parent = document.querySelector('.dealer-hand')
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
   }
-  while ('.events'.firstChild) {
-    document.querySelector('.events').removeChild('events'.firstChild)
+  parent = document.querySelector('.events')
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
   }
+  const openingMessage = document.createElement('h2')
+  openingMessage.textContent = 'Hit or Stand?'
+  parent.appendChild(openingMessage)
+
+  deck = []
   playerHand = []
   dealerHand = []
+  playerTotal = 0
+  dealerTotal = 0
+
   buildDeck()
   shuffleDeck()
   for (let j = 0; j < 2; j++) {
     dealPlayer()
+    let blankCard = document.createElement('img')
+    document.querySelector('.dealer-hand').appendChild(blankCard)
+    blankCard.src = '/images/card_back.jpg'
   }
   if (playerTotal == 21) {
     let message = document.createElement('h2')
@@ -118,9 +131,9 @@ const hit = () => {
 }
 
 const stand = () => {
-  //children not removing
-  while ('.dealer-hand'.firstChild) {
-    document.querySelector('.dealer-hand').removeChild('dealer-hand'.firstChild)
+  const parent = document.querySelector('.dealer-hand')
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
   }
   for (let index = 0; index < 2; index++) {
     dealDealer()
@@ -131,7 +144,7 @@ const stand = () => {
   if (dealerTotal == playerTotal) {
     victory('tie')
   } else if (dealerTotal > 21) {
-    let message = document.createElement('h2')
+    const message = document.createElement('h2')
     message.textContent = 'Dealer busts'
     document.querySelector('.events').appendChild(message)
     victory('Player')
@@ -143,15 +156,15 @@ const stand = () => {
 }
 
 const victory = winner => {
+  const parent = document.querySelector('.events')
+  parent.removeChild(parent.firstChild)
   if (winner == 'tie') {
-    document.querySelector('.events').removeChild('events'.firstChild)
     let winMessage = document.createElement('h2')
-    document.querySelector('.events').appendChild(winMessage)
+    parent.appendChild(winMessage)
     winMessage.textContent = 'Tie'
   } else {
-    document.querySelector('.events').removeChild('events'.firstChild)
     let winMessage = document.createElement('h2')
-    document.querySelector('.events').appendChild(winMessage)
+    parent.appendChild(winMessage)
     winMessage.textContent = winner + ' wins'
   }
   document.getElementById('hit-button').disabled = true
