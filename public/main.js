@@ -54,7 +54,8 @@ const buildDeck = () => {
       const card = {
         rank: ranks[j],
         suit: suits[i],
-        cardValue: 0
+        cardValue: 0,
+        cardImage: 0
       }
       deck.push(card)
     }
@@ -71,6 +72,8 @@ const buildDeck = () => {
     } else {
       deck[k].cardValue = parseInt(deck[k].rank, 10)
     }
+    deck[k].cardImage =
+      '/images/' + deck[k].ranks + '_of_' + deck[k].suits + '.svg'
   }
 }
 
@@ -85,21 +88,25 @@ const shuffleDeck = () => {
 }
 
 const dealDealer = () => {
-  const nextCard = deck.shift()
-  dealerTotal += nextCard.cardValue
-  const cardInHand = document.createElement('li')
-  //change below to images
-  cardInHand.textContent = nextCard.rank + nextCard.suit
-  document.querySelector('.dealer-hand').appendChild(cardInHand)
+  //cards not showing
+  const dealerCard = deck.shift()
+  dealerTotal += dealerCard.cardValue
+  const dealer_li = document.createElement('li')
+  document.querySelector('.dealer-hand').appendChild(dealer_li)
+  let dealerCardPic = document.createElement('img')
+  dealerCardPic = dealerCard.cardImage
+  document.querySelector('.dealer-hand'.lastChild).appendChild(dealerCardPic)
 }
 
 const dealPlayer = () => {
-  const nextCard = deck.shift()
-  playerTotal += nextCard.cardValue
-  const cardInHand = document.createElement('li')
-  //change below to images
-  cardInHand.textContent = nextCard.rank + nextCard.suit
-  document.querySelector('.player-hand').appendChild(cardInHand)
+  //cards not showing
+  const playerCard = deck.shift()
+  playerTotal += playerCard.cardValue
+  const player_li = document.createElement('li')
+  document.querySelector('.player-hand').appendChild(player_li)
+  let playerCardPic = document.createElement('img')
+  playerCardPic = playerCard.cardImage
+  document.querySelector('.player-hand'.lastChild).appendChild(playerCardPic)
 }
 
 const hit = () => {
@@ -138,6 +145,7 @@ const stand = () => {
 }
 
 const victory = winner => {
+  //victory not reporting
   if (winner == 'tie') {
     let winMessage = document.createElement('h2')
     winMessage.textContent = 'Tie'
