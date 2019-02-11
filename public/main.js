@@ -52,15 +52,17 @@ const buildDeck = () => {
   for (let i = 0; i < suits.length; i++) {
     for (let j = 0; j < ranks.length; j++) {
       const card = {
-        rank: ranks[j],
         suit: suits[i],
+        rank: ranks[j],
         cardValue: 0,
-        cardImage: 0
+        cardImage: ''
       }
       deck.push(card)
     }
   }
   for (let k = 0; k < deck.length; k++) {
+    deck[k].cardImage =
+      '/images/' + deck[k].rank + '_of_' + deck[k].suit + '.svg'
     if (
       deck[k].rank == 'jack' ||
       deck[k].rank == 'queen' ||
@@ -72,8 +74,6 @@ const buildDeck = () => {
     } else {
       deck[k].cardValue = parseInt(deck[k].rank, 10)
     }
-    deck[k].cardImage =
-      '/images/' + deck[k].ranks + '_of_' + deck[k].suits + '.svg'
   }
 }
 
@@ -87,26 +87,24 @@ const shuffleDeck = () => {
   }
 }
 
-const dealDealer = () => {
-  //cards not showing
-  const dealerCard = deck.shift()
-  dealerTotal += dealerCard.cardValue
-  const dealer_li = document.createElement('li')
-  document.querySelector('.dealer-hand').appendChild(dealer_li)
-  let dealerCardPic = document.createElement('img')
-  dealerCardPic = dealerCard.cardImage
-  document.querySelector('.dealer-hand'.lastChild).appendChild(dealerCardPic)
-}
-
 const dealPlayer = () => {
   //cards not showing
   const playerCard = deck.shift()
   playerTotal += playerCard.cardValue
-  const player_li = document.createElement('li')
-  document.querySelector('.player-hand').appendChild(player_li)
   let playerCardPic = document.createElement('img')
-  playerCardPic = playerCard.cardImage
-  document.querySelector('.player-hand'.lastChild).appendChild(playerCardPic)
+  document.querySelector('.player-hand').appendChild(playerCardPic)
+  playerCardPic.src = playerCard.cardImage
+  console.log(playerCardPic)
+}
+
+const dealDealer = () => {
+  //cards not showing
+  const dealerCard = deck.shift()
+  dealerTotal += dealerCard.cardValue
+  let dealerCardPic = document.createElement('img')
+  document.querySelector('.dealer-hand').appendChild(dealerCardPic)
+  dealerCardPic.src = dealerCard.cardImage
+  console.log(dealerCardPic)
 }
 
 const hit = () => {
@@ -145,12 +143,13 @@ const stand = () => {
 }
 
 const victory = winner => {
-  //victory not reporting
   if (winner == 'tie') {
     let winMessage = document.createElement('h2')
+    document.querySelector('.events').appendChild(winMessage)
     winMessage.textContent = 'Tie'
   } else {
     let winMessage = document.createElement('h2')
+    document.querySelector('.events').appendChild(winMessage)
     winMessage.textContent = winner + ' wins'
   }
   document.getElementById('hit-button').disabled = true
